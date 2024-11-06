@@ -11,6 +11,7 @@ export const authRouter = new Elysia()
       return await authService.registerUser(body);
     },
     {
+      tags: ["auth"],
       body: t.Object({
         email: t.String(),
         password: t.String(),
@@ -42,22 +43,29 @@ export const authRouter = new Elysia()
       };
     },
     {
+      tags: ["auth"],
       body: t.Object({
         email: t.String({ minLength: 1, format: "email" }),
         password: t.String({ minLength: 1 }),
       }),
     }
   )
-  .post("/logout", async ({ set, cookie: { session } }) => {
-    const sessionId = session?.value;
+  .post(
+    "/logout",
+    async ({ set, cookie: { session } }) => {
+      const sessionId = session?.value;
 
-    if (!sessionId) {
-      set.status = 400;
-      throw new Error("You are not logged in");
+      if (!sessionId) {
+        set.status = 400;
+        throw new Error("You are not logged in");
+      }
+
+      await authService.logoutUser(sessionId);
+
+      session.remove();
+      return { message: "Logout successful" };
+    },
+    {
+      tags: ["auth"],
     }
-
-    await authService.logoutUser(sessionId);
-
-    session.remove();
-    return { message: "Logout successful" };
-  });
+  );

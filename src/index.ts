@@ -8,7 +8,19 @@ import { noteRouter } from "@/presentation/router/note-router";
 const _app = new Elysia()
   // plugins
   .use(cors())
-  .use(swagger())
+  .use(
+    swagger({
+      path: "/docs",
+      autoDarkMode: true,
+      documentation: {
+        info: {
+          title: "Demo API for Layered Architecture",
+          version: "1.0.0",
+          description: "This is a demo API for a layered architecture",
+        },
+      },
+    })
+  )
   // router
   .use(authRouter)
   .use(noteRouter)

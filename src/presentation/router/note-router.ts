@@ -7,14 +7,26 @@ export const noteRouter = new Elysia()
   // middleware
   .derive(sessionMiddleware)
   // router
-  .get("/notes", async ({ user }) => {
-    const allNotes = await noteService.getAll(user);
-    return allNotes;
-  })
-  .get("/notes/:id", async (req) => {
-    const note = await noteService.getById(req.params.id);
-    return note;
-  })
+  .get(
+    "/notes",
+    async ({ user }) => {
+      const allNotes = await noteService.getAll(user);
+      return allNotes;
+    },
+    {
+      tags: ["notes"],
+    }
+  )
+  .get(
+    "/notes/:id",
+    async (req) => {
+      const note = await noteService.getById(req.params.id);
+      return note;
+    },
+    {
+      tags: ["notes"],
+    }
+  )
   .post(
     "/notes",
     async (req) => {
@@ -23,6 +35,7 @@ export const noteRouter = new Elysia()
       return newNote;
     },
     {
+      tags: ["notes"],
       body: t.Object({
         title: t.String(),
         content: t.String(),
@@ -36,13 +49,18 @@ export const noteRouter = new Elysia()
       return note;
     },
     {
+      tags: ["notes"],
       body: t.Object({
         title: t.String(),
         content: t.String(),
       }),
     }
   )
-  .delete("/notes/:id", async (req) => {
-    await noteService.delete(req.params.id);
-    return;
-  });
+  .delete(
+    "/notes/:id",
+    async (req) => {
+      await noteService.delete(req.params.id);
+      return;
+    },
+    { tags: ["notes"] }
+  );
