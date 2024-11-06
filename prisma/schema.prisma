@@ -20,13 +20,13 @@ model User {
 model Session {
   id String @id @default(cuid())
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) 
 }
 
 model Note {
   id String @id @default(cuid())
   title String
   content String
-  author User @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 }
