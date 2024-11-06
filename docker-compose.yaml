@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  layered-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3020:3020"
+    env_file:
+      - .env.staging

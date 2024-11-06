@@ -25,6 +25,6 @@ const _app = new Elysia()
   .use(authRouter)
   .use(noteRouter)
   // port
-  .listen(3000);
+  .listen(3020);
 
-console.log("Backend is running on port 3000");
+console.log("Backend is running on port 3020");
